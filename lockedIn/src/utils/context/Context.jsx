@@ -1,0 +1,20 @@
+import React, { useState } from "react";
+import { createContext } from "react";
+
+function Context({ props }) {
+  const ThemeContext = createContext();
+  const AuthContext = createContext();
+  const [user, setUser] = useState(null);
+  const [type, setType] = useState("user");
+  const [theme, setTheme] = useState("dark");
+  const [preference, setPreference] = useState("dark");
+  return (
+    <ThemeContext.Provider value={{}}>
+      <AuthContext.Provider value={{ user, setUser, type, setType }}>
+        {props.children}
+      </AuthContext.Provider>
+    </ThemeContext.Provider>
+  );
+}
+
+export default Context;
