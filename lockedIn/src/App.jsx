@@ -1,5 +1,4 @@
-import { BrowserRouter } from "react-router";
-import Routers from "./routers/Routers";
+import Routers from "./routers/Routers.jsx";
 function App() {
   return (
     <>

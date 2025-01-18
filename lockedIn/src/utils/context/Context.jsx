@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createContext } from "react";
 
-function Context({ props }) {
+function Context(props) {
   const ThemeContext = createContext();
   const AuthContext = createContext();
   const [user, setUser] = useState(null);
@@ -9,7 +9,9 @@ function Context({ props }) {
   const [theme, setTheme] = useState("dark");
   const [preference, setPreference] = useState("dark");
   return (
-    <ThemeContext.Provider value={{}}>
+    <ThemeContext.Provider
+      value={{ theme, setTheme, preference, setPreference }}
+    >
       <AuthContext.Provider value={{ user, setUser, type, setType }}>
         {props.children}
       </AuthContext.Provider>
