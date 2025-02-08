@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { createContext } from "react";
 
 function Context(props) {
   const ThemeContext = createContext();
   const AuthContext = createContext();
-  const [user, setUser] = useState(null);
+  // const [socket, setSocket] = useState<USESOCKETCONTEXT.IO|null>(null);
   const [type, setType] = useState("user");
   const [theme, setTheme] = useState("dark");
+  const [user,setUser]=useState(null);
   const [preference, setPreference] = useState("dark");
   return (
     <ThemeContext.Provider
