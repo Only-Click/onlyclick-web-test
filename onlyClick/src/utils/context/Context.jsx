@@ -1,22 +1,18 @@
-import  { useState } from "react";
+import { useEffect, useState } from "react";
 import { createContext } from "react";
 
+export const AuthContext = createContext();
+// export const ThemeContext = createContext();
 function Context(props) {
-  const ThemeContext = createContext();
-  const AuthContext = createContext();
   // const [socket, setSocket] = useState<USESOCKETCONTEXT.IO|null>(null);
-  const [type, setType] = useState("user");
-  const [theme, setTheme] = useState("dark");
-  const [user,setUser]=useState(null);
-  const [preference, setPreference] = useState("dark");
+  const [type, setType] = useState("contractor");
+  const [user, setUser] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [isLoggedIn,setIsLoggedIn]=useState(false)
   return (
-    <ThemeContext.Provider
-      value={{ theme, setTheme, preference, setPreference }}
-    >
-      <AuthContext.Provider value={{ user, setUser, type, setType }}>
-        {props.children}
-      </AuthContext.Provider>
-    </ThemeContext.Provider>
+    <AuthContext.Provider value={{ user, setUser,isLoggedIn }}>
+      {props.children}
+    </AuthContext.Provider>
   );
 }
 
