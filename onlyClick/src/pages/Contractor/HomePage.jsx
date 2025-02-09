@@ -1,16 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FaPlusCircle } from "react-icons/fa";
+import axios from "axios";
+import { AuthContext } from "../../utils/context/Context";
+
 
 function HomePage() {
-  const data = [
-    "Total Bookings",
-    "Completed Bookings",
-    "Remaining Bookings",
-    "Total Revenue",
-  ];
-  const workers = ["defghijkl", "defghijkl", "defghijkl", "defghijkl"];
+  const { user, setUser } = useContext(AuthContext);
+  const [workers, setWorkers] = useState([]);
   const [isAddWorkerOpen, setIsAddWorkerOpen] = useState(false);
   const [workerName, setWorkerName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  useEffect(() => {
+    // Fetch workers list from user context and update local state and localStorage
+    if (user && user.workers) {
+      setWorkers(user.workers);
+      localStorage.setItem("workers", JSON.stringify(user.workers));
+    }
+  }, [user]);
+
+  const handleAddWorker = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/api/contractors/addWorker", {
+        name: workerName,
+      });
+      const newWorker = response.data;
+      const updatedWorkers = [...workers, newWorker];
+      setWorkers(updatedWorkers);
+      setUser({ ...user, workers: updatedWorkers });
+      localStorage.setItem("user", JSON.stringify(user));
+      setWorkerName("");
+      setIsAddWorkerOpen(false);
+    } catch (error) {
+      console.error("Error adding worker:", error);
+    }
+  };
+
+  const handleAddPhoneNumber = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:8080/api/contractors/addSecondaryPhoneNumber", {
+        phoneNumber,
+      });
+      setPhoneNumber("");
+    } catch (error) {
+      console.error("Error adding phone number:", error);
+    }
+  };
+
   return (
     <div className="w-[100vw] h-max bg-slate-300 flex flex-col ">
       <div className="w-full h-[10vh] text-2xl text-white flex items-center p-4 leading-relaxed tracking-wide font-semibold bg-[#0192AD]">
@@ -26,7 +63,7 @@ function HomePage() {
           Total Cash in Hand <span className="ml-20">Rs. 0.0</span>
         </div>
         <div className="flex flex-wrap gap-4 w-full h-max  justify-center items-center">
-          {data.map((data, index) => {
+          {workers.map((data, index) => {
             return (
               <div
                 key={index}
@@ -71,16 +108,13 @@ function HomePage() {
               value={workerName}
               className="px-4 py-3 w-full"
               onChange={(e) => {
-                // console.log(e.target.value);
                 setWorkerName(e.target.value);
               }}
             />
             <div className="flex justify-between mt-4">
               <button
                 className="w-[40vw] py-2 bg-[#0192AD]"
-                onClick={() => {
-                  setIsAddWorkerOpen(false);
-                }}
+                onClick={handleAddWorker}
               >
                 Add
               </button>
@@ -93,6 +127,30 @@ function HomePage() {
                 Cancel
               </button>
             </div>
+            <form
+              className="flex flex-col justify-center items-center gap-5"
+              onSubmit={handleAddPhoneNumber}
+            >
+              <label className="font-medium" htmlFor="phone">
+                Enter Your Phone Number{" "}
+              </label>
+              <input
+                className="w-[85vw] h-12 rounded-lg text-xl tracking-widest font-semibold text-center"
+                type="number"
+                name="phone"
+                id="phone"
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value);
+                }}
+                value={phoneNumber}
+              />
+              <button
+                className="bg-slate-400 text-white w-[85vw] h-12 rounded-lg flex justify-center items-center font-semibold text-lg"
+                type="submit"
+              >
+                Send OTP
+              </button>
+            </form>
           </div>
         )}
       </div>
