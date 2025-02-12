@@ -7,15 +7,11 @@ function HomePage() {
   const { user, setUser } = useContext(AuthContext);
   const [workers, setWorkers] = useState([]);
   const [isAddWorkerOpen, setIsAddWorkerOpen] = useState(false);
-<<<<<<< HEAD
   const [workerName, setWorkerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const data=["abcd","efgh","ijkl","mnop"]
-=======
-  const [workerName, setWorkerName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
 
->>>>>>> e9244e76736f02f90bb9d22b2913722c77cb2a29
+
   useEffect(() => {
     // Fetch workers list from user context and update local state and localStorage
     if (user && user.workers) {

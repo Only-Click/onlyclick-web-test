@@ -14,9 +14,7 @@ function OtpScreen() {
   }, [location.state]);
 
   const verifyOtp = async () => {
-<<<<<<< HEAD
-   // according to backend check if the data i got got back was for a user or a contractor and navigate accordingly.if nothing then strctly navigate to signup page for user
-=======
+
     try {
       const response = await axios.post(
         '/api/contractors/validOTP',
@@ -34,7 +32,6 @@ function OtpScreen() {
     } catch (error) {
       console.error('Error verifying OTP:', error);
     }
->>>>>>> e9244e76736f02f90bb9d22b2913722c77cb2a29
   };
 
   return (

@@ -33,23 +33,20 @@ function SignUpContractor() {
       address,
       category,
     };
-<<<<<<< HEAD
   const [lastName, setLastName] = useState("");
     // signup the contracotr here and store the data of his here on the localstorage and navigate to the home page of the contractor
-=======
 
-    try {
-      const response = await axios.post(
-        '/api/contractors/signup',
-        data
-      );
-      localStorage.setItem('contractorData', JSON.stringify(response.data));
-      console.log('Contractor data saved to local storage');
-      navigate('/home/contractor');
-    } catch (error) {
-      console.error('Error submitting form', error);
-    }
->>>>>>> e9244e76736f02f90bb9d22b2913722c77cb2a29
+    // try {
+    //   const response = await axios.post(
+    //     '/api/contractors/signup',
+    //     data
+    //   );
+    //   localStorage.setItem('contractorData', JSON.stringify(response.data));
+    //   console.log('Contractor data saved to local storage');
+    //   navigate('/home/contractor');
+    // } catch (error) {
+    //   console.error('Error submitting form', error);
+    // }
   };
 
   return (

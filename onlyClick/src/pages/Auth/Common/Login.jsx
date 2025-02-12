@@ -8,10 +8,9 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
+
     setPhoneNumber("");
    //navigate to otp screen
-=======
     try {
       const response = await axios.post(
         '/api/contractors/sendOTP',
@@ -25,7 +24,6 @@ function Login() {
     } catch (error) {
       console.error('Error:', error);
     }
->>>>>>> e9244e76736f02f90bb9d22b2913722c77cb2a29
   };
 
   return (
@@ -35,11 +33,7 @@ function Login() {
         onSubmit={handleSubmit}
       >
         <label className="font-medium" htmlFor="phone">
-<<<<<<< HEAD
           Enter Your Phone Number{""}
-=======
-          Enter Your Phone Number{' '}
->>>>>>> e9244e76736f02f90bb9d22b2913722c77cb2a29
         </label>
         <input
           className="w-[85vw] h-12 rounded-lg text-xl tracking-widest font-semibold text-center"
