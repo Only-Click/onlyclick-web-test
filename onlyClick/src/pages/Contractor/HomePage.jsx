@@ -1,50 +1,55 @@
-import { useState, useEffect, useContext } from "react";
-import { FaPlusCircle } from "react-icons/fa";
-import axios from "axios";
-import { AuthContext } from "../../utils/context/Context";
-
+import { useState, useEffect, useContext } from 'react';
+import { FaPlusCircle } from 'react-icons/fa';
+import axios from 'axios';
+import { AuthContext } from '../../utils/context/Context';
 
 function HomePage() {
   const { user, setUser } = useContext(AuthContext);
   const [workers, setWorkers] = useState([]);
   const [isAddWorkerOpen, setIsAddWorkerOpen] = useState(false);
-  const [workerName, setWorkerName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [workerName, setWorkerName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect(() => {
     // Fetch workers list from user context and update local state and localStorage
     if (user && user.workers) {
       setWorkers(user.workers);
-      localStorage.setItem("workers", JSON.stringify(user.workers));
+      localStorage.setItem('workers', JSON.stringify(user.workers));
     }
   }, [user]);
 
   const handleAddWorker = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/api/contractors/addWorker", {
-        name: workerName,
-      });
+      const response = await axios.post(
+        '/api/contractors/addWorker',
+        {
+          name: workerName,
+        }
+      );
       const newWorker = response.data;
       const updatedWorkers = [...workers, newWorker];
       setWorkers(updatedWorkers);
       setUser({ ...user, workers: updatedWorkers });
-      localStorage.setItem("user", JSON.stringify(user));
-      setWorkerName("");
+      localStorage.setItem('user', JSON.stringify(user));
+      setWorkerName('');
       setIsAddWorkerOpen(false);
     } catch (error) {
-      console.error("Error adding worker:", error);
+      console.error('Error adding worker:', error);
     }
   };
 
   const handleAddPhoneNumber = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/api/contractors/addSecondaryPhoneNumber", {
-        phoneNumber,
-      });
-      setPhoneNumber("");
+      await axios.post(
+        '/api/contractors/addSecondaryPhoneNumber',
+        {
+          phoneNumber,
+        }
+      );
+      setPhoneNumber('');
     } catch (error) {
-      console.error("Error adding phone number:", error);
+      console.error('Error adding phone number:', error);
     }
   };
 
@@ -132,7 +137,7 @@ function HomePage() {
               onSubmit={handleAddPhoneNumber}
             >
               <label className="font-medium" htmlFor="phone">
-                Enter Your Phone Number{" "}
+                Enter Your Phone Number{' '}
               </label>
               <input
                 className="w-[85vw] h-12 rounded-lg text-xl tracking-widest font-semibold text-center"

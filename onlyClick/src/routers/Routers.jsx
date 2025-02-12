@@ -1,10 +1,10 @@
-import { Routes, Route } from "react-router";
-import LandingPage from "../pages/LandingPage.jsx";
-import Login from "../pages/Auth/Common/Login.jsx";
-import SignUpUser from "../pages/Auth/SignUpUser.jsx";
-import OtpScreen from "../pages/Auth/Common/OtpScreen.jsx";
-import SignUpContractor from "../pages/Auth/Contractor/SignUpContractor.jsx";
-import HomePage from "../pages/Contractor/HomePage.jsx";
+import { Routes, Route } from 'react-router';
+import LandingPage from '../pages/LandingPage.jsx';
+import Login from '../pages/Auth/Common/Login.jsx';
+import SignUpUser from '../pages/Auth/SignUpUser.jsx';
+import OtpScreen from '../pages/Auth/Common/OtpScreen.jsx';
+import SignUpContractor from '../pages/Auth/Contractor/SignUpContractor.jsx';
+import HomePage from '../pages/Contractor/HomePage.jsx';
 function Routers() {
   return (
     <Routes>

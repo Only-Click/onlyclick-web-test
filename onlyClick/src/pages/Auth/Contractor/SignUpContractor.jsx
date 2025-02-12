@@ -1,22 +1,22 @@
-import { Formik } from "formik";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
-import axios from "axios";
+import { Formik } from 'formik';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
+import axios from 'axios';
 
 function SignUpContractor() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [category, setCategory] = useState("");
-  const [buildingName, setBuildingName] = useState("");
-  const [streetAddress, setStreetAddress] = useState("");
-  const [nearbyLandmark, setNearbyLandmark] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-  const [pincode, setPincode] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [category, setCategory] = useState('');
+  const [buildingName, setBuildingName] = useState('');
+  const [streetAddress, setStreetAddress] = useState('');
+  const [nearbyLandmark, setNearbyLandmark] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [pincode, setPincode] = useState('');
 
   useEffect(() => {
     if (location.state && location.state.phoneNumber) {
@@ -36,14 +36,14 @@ function SignUpContractor() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/contractors/signup",
+        '/api/contractors/signup',
         data
       );
-      localStorage.setItem("contractorData", JSON.stringify(response.data));
-      console.log("Contractor data saved to local storage");
-      navigate("/home/contractor");
+      localStorage.setItem('contractorData', JSON.stringify(response.data));
+      console.log('Contractor data saved to local storage');
+      navigate('/home/contractor');
     } catch (error) {
-      console.error("Error submitting form", error);
+      console.error('Error submitting form', error);
     }
   };
 
