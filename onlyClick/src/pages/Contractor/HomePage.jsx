@@ -10,7 +10,7 @@ function HomePage() {
   const [isAddWorkerOpen, setIsAddWorkerOpen] = useState(false);
   const [workerName, setWorkerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-
+  const data=["abcd","efgh","ijkl","mnop"]
   useEffect(() => {
     // Fetch workers list from user context and update local state and localStorage
     if (user && user.workers) {
@@ -63,7 +63,7 @@ function HomePage() {
           Total Cash in Hand <span className="ml-20">Rs. 0.0</span>
         </div>
         <div className="flex flex-wrap gap-4 w-full h-max  justify-center items-center">
-          {workers.map((data, index) => {
+          {data.map((data, index) => {
             return (
               <div
                 key={index}
@@ -127,7 +127,10 @@ function HomePage() {
                 Cancel
               </button>
             </div>
-            <form
+            
+          </div>
+        )}
+        <form
               className="flex flex-col justify-center items-center gap-5"
               onSubmit={handleAddPhoneNumber}
             >
@@ -139,6 +142,7 @@ function HomePage() {
                 type="number"
                 name="phone"
                 id="phone"
+                maxLength={10}
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
                 }}
@@ -151,8 +155,6 @@ function HomePage() {
                 Send OTP
               </button>
             </form>
-          </div>
-        )}
       </div>
     </div>
   );

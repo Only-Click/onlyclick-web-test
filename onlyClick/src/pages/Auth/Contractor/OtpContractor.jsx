@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import OtpInput from "react-otp-input";
 import axios from "axios";
 
-function OtpScreen() {
+function OtpContractor() {
   const location = useLocation();
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -52,4 +52,4 @@ function OtpScreen() {
   );
 }
 
-export default OtpScreen;
+export default OtpContractor;

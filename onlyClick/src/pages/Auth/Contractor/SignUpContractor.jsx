@@ -33,18 +33,8 @@ function SignUpContractor() {
       address,
       category,
     };
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/api/contractors/signup",
-        data
-      );
-      localStorage.setItem("contractorData", JSON.stringify(response.data));
-      console.log("Contractor data saved to local storage");
-      navigate("/home/contractor");
-    } catch (error) {
-      console.error("Error submitting form", error);
-    }
+  const [lastName, setLastName] = useState("");
+    // signup the contracotr here and store the data of his here on the localstorage and navigate to the home page of the contractor
   };
 
   return (

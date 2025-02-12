@@ -2,14 +2,14 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
-function Login() {
+function LoginContractor() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPhoneNumber("");
-   //navigate to otp screen
+   //navigate to otp screen of contractor only
   };
 
   return (
@@ -43,4 +43,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginContractor;
