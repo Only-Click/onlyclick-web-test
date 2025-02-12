@@ -1,15 +1,31 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router";
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 function Login() {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     setPhoneNumber("");
    //navigate to otp screen
+=======
+    try {
+      const response = await axios.post(
+        '/api/contractors/sendOTP',
+        { phoneNumber }
+      );
+      if (response.status === 200) {
+        navigate('/auth/contractor/verifyOtp', { state: { phoneNumber } });
+      } else {
+        console.error('Failed to send phone number');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+>>>>>>> e9244e76736f02f90bb9d22b2913722c77cb2a29
   };
 
   return (
@@ -19,7 +35,11 @@ function Login() {
         onSubmit={handleSubmit}
       >
         <label className="font-medium" htmlFor="phone">
+<<<<<<< HEAD
           Enter Your Phone Number{""}
+=======
+          Enter Your Phone Number{' '}
+>>>>>>> e9244e76736f02f90bb9d22b2913722c77cb2a29
         </label>
         <input
           className="w-[85vw] h-12 rounded-lg text-xl tracking-widest font-semibold text-center"
