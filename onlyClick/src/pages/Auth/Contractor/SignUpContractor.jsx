@@ -33,7 +33,7 @@ function SignUpContractor() {
       address,
       category,
     };
-  const [lastName, setLastName] = useState("");
+    const [lastName, setLastName] = useState('');
     // signup the contracotr here and store the data of his here on the localstorage and navigate to the home page of the contractor
 
     // try {
@@ -113,23 +113,26 @@ function SignUpContractor() {
                   className="w-full min-w-[85vw] max-w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
                   name="category"
                   id="category"
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                    console.log('this is category:', category);
+                  }}
                   onBlur={handleBlur}
                   value={category}
                 >
-                  <option className="w-[85vw]" value="carpenter">
+                  <option className="w-[85vw]" value="Carpenter">
                     Carpentery
                   </option>
-                  <option className="w-[85vw]" value="electrician">
+                  <option className="w-[85vw]" value="Electrician">
                     Electricity
                   </option>
-                  <option className="w-[85vw]" value="plumber">
+                  <option className="w-[85vw]" value="Plumber">
                     Plumbering
                   </option>
-                  <option className="w-[85vw]" value="cleaner">
+                  <option className="w-[85vw]" value="Cleaner">
                     Cleaning
                   </option>
-                  <option className="w-[85vw]" value="painter">
+                  <option className="w-[85vw]" value="Painter">
                     Painting
                   </option>
                 </select>

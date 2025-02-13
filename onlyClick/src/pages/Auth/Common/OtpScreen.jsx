@@ -15,23 +15,23 @@ function OtpScreen() {
 
   const verifyOtp = async () => {
 
-    try {
-      const response = await axios.post(
-        '/api/contractors/validOTP',
-        {
-          phoneNumber,
-          otp,
-        }
-      );
+    // try {
+    //   const response = await axios.post(
+    //     '/api/contractors/validOTP',
+    //     {
+    //       phoneNumber,
+    //       otp,
+    //     }
+    //   );
 
-      if (response.status === 200) {
-        navigate('/home/contractor');
-      } else if (response.status === 201) {
-        navigate('auth/contractor/signup', { state: { phoneNumber } });
-      }
-    } catch (error) {
-      console.error('Error verifying OTP:', error);
-    }
+    //   if (response.status === 200) {
+    //     navigate('/home/contractor');
+    //   } else if (response.status === 201) {
+    //     navigate('auth/contractor/signup', { state: { phoneNumber } });
+    //   }
+    // } catch (error) {
+    //   console.error('Error verifying OTP:', error);
+    // }
   };
 
   return (
