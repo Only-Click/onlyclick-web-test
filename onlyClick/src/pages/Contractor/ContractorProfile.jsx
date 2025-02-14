@@ -5,6 +5,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 import { NavLink, useNavigate } from 'react-router';
 import { FaCircleUser } from 'react-icons/fa6';
 import Footer from '../User/Components/Footer';
+import OTPInput from 'react-otp-input';
 
 function ContractorProfile() {
   const { user, setUser } = useContext(AuthContext);
@@ -18,12 +19,13 @@ function ContractorProfile() {
   ]);
   const [isAddWorkerOpen, setIsAddWorkerOpen] = useState(false);
   const [workerName, setWorkerName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('987654321');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [username, setUsername] = useState('John Doe');
   const [secondayContractor, setSecondaryContractor] = useState('');
   const [address, setAddress] = useState(
     'Vit Ap, University , Near Vandalur Zoo, Chennai, Tamil Nadu, India, 600127'
   );
+  const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
 
   const navigate = useNavigate();
@@ -136,6 +138,8 @@ function ContractorProfile() {
             </div>
           </div>
         )}
+
+        {/* phone number add */}
         <form
           className="flex flex-col justify-center items-center gap-5"
           // onSubmit={handleAddPhoneNumber}
@@ -161,6 +165,34 @@ function ContractorProfile() {
             Send OTP
           </button>
         </form>
+        <div className="flex flex-col justify-center items-center gap-5">
+          <label className="font-medium" htmlFor="phone">
+            Enter Your OTP{' '}
+          </label>
+          <div className="w-[85vw] h-12">
+            <OTPInput
+              value={otp}
+              onChange={setOtp}
+              numInputs={6}
+              inputType="tel"
+              renderSeparator={<span className="w-2"></span>}
+              containerStyle={{
+                width: '85vw',
+                height: '6vh',
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              inputStyle={{
+                width: '12vw',
+                height: '6vh',
+                borderColor: 'black',
+                border: 2,
+              }}
+              renderInput={(props) => <input className="h-12" {...props} />}
+            />
+          </div>
+        </div>
       </div>
       <Footer />
     </div>

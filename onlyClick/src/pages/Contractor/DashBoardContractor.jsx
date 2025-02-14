@@ -7,6 +7,8 @@ import { Link, NavLink, useNavigate } from 'react-router';
 import { FaCircleUser } from 'react-icons/fa6';
 import { CiShoppingCart } from 'react-icons/ci';
 import Footer from '../User/Components/Footer';
+import Assigned from './Components/Assigned';
+import Requests from './Components/Requests';
 
 function DashBoardContractor() {
   const { user, setUser } = useContext(AuthContext);
@@ -19,7 +21,32 @@ function DashBoardContractor() {
     'Vit Ap, University , Near Vandalur Zoo, Chennai, Tamil Nadu, India, 600127'
   );
   const navigate = useNavigate();
-  const data = ['abcd', 'efgh', 'ijkl', 'mnop'];
+  const data = [
+    { name: 'Total Earning', number: 0 },
+    { name: 'Jobs Finished', number: 0 },
+  ];
+  const [assignedOpen, setAssignedOpen] = useState(false);
+  const [requestsOpen, setRequestsOpen] = useState(false);
+  const [reviews, setReviews] = useState([
+    {
+      name: 'John Doe',
+      comment:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur voluptate est libero.',
+      time: '3',
+    },
+    {
+      name: 'John Doe',
+      comment:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur voluptate est libero.',
+      time: '3',
+    },
+    {
+      name: 'John Doe',
+      comment:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur voluptate est libero.',
+      time: '3',
+    },
+  ]);
 
   useEffect(() => {
     // Fetch workers list from user context and update local state and localStorage
@@ -81,7 +108,6 @@ function DashBoardContractor() {
             </NavLink>
           </div>
         </div>
-
         {/* total workers tab */}
         <div className="w-full h-[10vh] bg-[#e2eff2] flex justify-center items-center text-lg font-semibold mt-4">
           <p>Total Workers</p>
@@ -95,15 +121,35 @@ function DashBoardContractor() {
                 key={index}
                 className=" w-[43vw] h-[15vh] bg-[#0097b3] rounded-lg flex flex-col justify-center p-4"
               >
-                <p className="font-semibold text-lg text-white">{data}</p>
-                <p className="font-semibold text-lg text-white">0</p>
+                <p className="font-semibold text-lg text-white">{data.name}</p>
+                <p className="font-semibold text-lg text-white">
+                  {data.number}
+                </p>
               </div>
             );
           })}
+          <div
+            className=" w-[43vw] h-[15vh] bg-[#0097b3] rounded-lg flex flex-col justify-center p-4"
+            onClick={() => {
+              setRequestsOpen(true);
+            }}
+          >
+            <p className="font-semibold text-lg text-white">Total Requests</p>
+            <p className="font-semibold text-lg text-white">0</p>
+          </div>
+          <div
+            className=" w-[43vw] h-[15vh] bg-[#0097b3] rounded-lg flex flex-col justify-center p-4"
+            onClick={() => {
+              setAssignedOpen(true);
+            }}
+          >
+            <p className="font-semibold text-lg text-white">Total Assigned</p>
+            <p className="font-semibold text-lg text-white">0</p>
+          </div>
         </div>
 
         {/* Reviews */}
-        <div className="w-full h-[30vh] ">
+        <div className="w-full h-max ">
           {/* upper part */}
           <div className="flex w-full justify-between items-center px-2">
             <p className="font-bold text-lg">Reviews</p>
@@ -113,7 +159,7 @@ function DashBoardContractor() {
             </Link>
           </div>
           {/* lower part */}
-          <div className="flex h-[80%] mt-4 ">
+          <div className="flex h-[24vh] mt-4 bg-slate-100">
             <div className="w-[45vw] h-[full] flex flex-col items-center justify-center gap-2 ">
               <p className="text-3xl">4.5/5</p>
               <p>(99 reviews)</p>
@@ -121,12 +167,27 @@ function DashBoardContractor() {
             </div>
             <div className="w-[50vw] h-[full]  flex flex-col"></div>
           </div>
+
+          {/* review comments part */}
+          <div className="flex flex-col w-full h-max gap-5 mt-8 mb-8 ">
+            {reviews.map((data, index) => (
+              <div
+                className="flex flex-col w-full h-max gap-3 flex-shrink-0 bg-slate-50 px-3 py-1 rounded-md"
+                key={index}
+              >
+                <div className="flex justify-between w-full">
+                  <p className="text-md">{data.name}</p>
+                  <p className="text-xs">{data.time} days ago</p>
+                </div>
+                <div className="text-sm">{data.comment}</div>
+              </div>
+            ))}
+          </div>
         </div>
-
-
-      
       </div>
       <Footer />
+      <Assigned open={assignedOpen} setOpen={setAssignedOpen} />
+      <Requests open={requestsOpen} setOpen={setRequestsOpen} />
     </div>
   );
 }
