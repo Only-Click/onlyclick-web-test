@@ -47,23 +47,23 @@ function HomePageUser() {
   const category = [
     {
       name: "Electrician",
-      image: "/assets/image.jpg",
+      image: "/assets/electrician.png",
     },
     {
       name: "Plumber",
-      image: "/assets/image.jpg",
+      image: "/assets/plumber.png",
     },
     {
       name: "Carpenter",
-      image: "/assets/image.jpg",
+      image: "/assets/carpenter.png",
     },
     {
       name: "Painter",
-      image: "/assets/image.jpg",
+      image: "/assets/painter.png",
     },
     {
       name: "Cleaner",
-      image: "/assets/image.jpg",
+      image: "/assets/cleaning.png",
     },
   ];
   const data = [
