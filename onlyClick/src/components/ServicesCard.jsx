@@ -11,7 +11,7 @@ return (
             <p className="text-black ">{data.name}</p>
             <div className='flex justify-between w-full '>
                 <div className='flex gap-1 justify-center items-center'>
-                    <FaStar className='text-yellow-400' />
+                    <FaStar className='text-yellow-400' />  
                     <p className='text-black font-semibold text-sm'>{data.rating}</p>
                 </div>
                 <p className='text-black font-semibold'>{data.price}</p>

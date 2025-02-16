@@ -19,7 +19,7 @@ function ContractorProfile() {
   ]);
   const [isAddWorkerOpen, setIsAddWorkerOpen] = useState(false);
   const [workerName, setWorkerName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('1234567890');
   const [username, setUsername] = useState('John Doe');
   const [secondayContractor, setSecondaryContractor] = useState('');
   const [address, setAddress] = useState(
@@ -154,9 +154,9 @@ function ContractorProfile() {
             id="phone"
             maxLength={10}
             onChange={(e) => {
-              setPhoneNumber(e.target.value);
+              setSecondaryContractor(e.target.value);
             }}
-            value={phoneNumber}
+            value={secondayContractor}
           />
           <button
             className="bg-slate-400 text-white w-[85vw] h-12 rounded-lg flex justify-center items-center font-semibold text-lg"
