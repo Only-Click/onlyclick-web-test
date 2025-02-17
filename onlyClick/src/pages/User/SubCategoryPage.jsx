@@ -84,7 +84,7 @@ function SubCategoryPage() {
           return <ServicesCard data={data} key={index} />;
         })}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

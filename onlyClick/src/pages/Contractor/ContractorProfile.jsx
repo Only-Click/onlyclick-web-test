@@ -1,199 +1,319 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../utils/context/Context';
 import Header from '../User/Components/Header';
-import { FaPlusCircle } from 'react-icons/fa';
-import { NavLink, useNavigate } from 'react-router';
-import { FaCircleUser } from 'react-icons/fa6';
+import { FaPlusCircle, FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../User/Components/Footer';
 import OTPInput from 'react-otp-input';
+import axios from 'axios';
 
 function ContractorProfile() {
   const { user, setUser } = useContext(AuthContext);
-  const [workers, setWorkers] = useState([
-    'Ravi',
-    'Ramu',
-    'Gopal',
-    'Ramesh',
-    'Raghav',
-    'Remu',
-  ]);
+  const navigate = useNavigate();
+
+  // State Management
+  const [workers, setWorkers] = useState([]);
   const [isAddWorkerOpen, setIsAddWorkerOpen] = useState(false);
   const [workerName, setWorkerName] = useState('');
+  const [workerRole, setWorkerRole] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('1234567890');
   const [username, setUsername] = useState('John Doe');
-  const [secondayContractor, setSecondaryContractor] = useState('');
+  const [secondaryPhone, setSecondaryPhone] = useState('');
   const [address, setAddress] = useState(
-    'Vit Ap, University , Near Vandalur Zoo, Chennai, Tamil Nadu, India, 600127'
+    'Vit Ap, University, Near Vandalur Zoo, Chennai, Tamil Nadu, India, 600127'
   );
+  
+  // OTP States
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
 
-  const navigate = useNavigate();
+  // Error and Loading States
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  // Fetch Workers on Component Mount
+  useEffect(() => {
+    fetchWorkers();
+  }, []);
+
+  // Fetch Workers Function
+  const fetchWorkers = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('/api/taskmaster/getProfiles', {
+        params: { 
+          role: 'Electrician',
+          contractorId: user?.id 
+        }
+      });
+
+      if (response.data.statusCode === 200) {
+        setWorkers(response.data.data || []);
+      } else {
+        setError('Failed to fetch workers');
+      }
+    } catch (error) {
+      console.error('Error fetching workers:', error);
+      setError('An error occurred while fetching workers');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Add Worker Handler
+  const handleAddWorker = async (e) => {
+    e.preventDefault();
+    
+    if (!workerName.trim() || !workerRole.trim()) {
+      setError('Please enter worker name and role');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post('/api/taskmaster/addProfile', {
+        name: workerName,
+        role: [workerRole],
+        contractorId: user?.id
+      });
+
+      if (response.data.statusCode === 201) {
+        // Add new worker to the list
+        setWorkers([...workers, response.data.data]);
+        // Reset form
+        setWorkerName('');
+        setWorkerRole('');
+        setIsAddWorkerOpen(false);
+        setError('');
+      } else {
+        setError(response.data.message || 'Failed to add worker');
+      }
+    } catch (error) {
+      console.error('Error adding worker:', error);
+      setError('An error occurred while adding worker');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Send OTP Handler
+  const handleSendOTP = async (e) => {
+    e.preventDefault();
+    
+    if (!secondaryPhone || secondaryPhone.length !== 10) {
+      setError('Please enter a valid 10-digit phone number');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post('/api/otp/send', {
+        phoneNumber: secondaryPhone
+      });
+
+      if (response.data.success) {
+        setOtpSent(true);
+        setError('');
+      } else {
+        setError(response.data.message || 'Failed to send OTP');
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      setError('An error occurred while sending OTP');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Verify OTP Handler
+  const handleVerifyOTP = async () => {
+    if (otp.length !== 6) {
+      setError('Please enter a valid 6-digit OTP');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post('/api/otp/verify', {
+        phoneNumber: secondaryPhone,
+        otp: otp
+      });
+
+      if (response.data.success) {
+        alert('Phone number verified successfully');
+        setOtpSent(false);
+        setSecondaryPhone('');
+        setOtp('');
+        setError('');
+      } else {
+        setError(response.data.message || 'Invalid OTP');
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+      setError('An error occurred while verifying OTP');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="w-[100vw] h-max bg-[#ffffff] flex flex-col gap-4">
-      {/* upper box */}
+    <div className="w-full min-h-screen bg-white flex flex-col gap-4">
+      {/* Header */}
       <Header username={username} address={address} />
 
-      {/* navbar part */}
-      <div className="w-full h-[7vh] px-2 flex justify-between items-center">
-        <div className="flex gap-2 items-center">
-          <p
-            className="text-2xl text-slate-500 mr-3"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            {'<'}
-          </p>
-          <p className="text-black font-bold text-2xl">Profile</p>
-        </div>
+      {/* Navigation */}
+      <div className="w-full px-4 py-2 flex items-center gap-4">
+        <FaArrowLeft 
+          className="text-2xl cursor-pointer" 
+          onClick={() => navigate(-1)} 
+        />
+        <h2 className="text-black font-bold text-2xl">Profile</h2>
       </div>
 
-      {/* profile details */}
-      <div className="w-full  px-4 flex flex-col gap-5">
-        {/* main name and image */}
-        <div className="flex w-full  justify-between">
+      {/* Profile Details */}
+      <div className="w-full px-4 flex flex-col gap-5">
+        {/* Profile Image and Name */}
+        <div className="flex w-full justify-between items-center">
           <img
             src="/assets/image.jpg"
-            className="bg-slate-400 w-[25vw] h-[25vw] rounded-full"
-            alt=""
+            className="bg-slate-400 w-[25vw] h-[25vw] rounded-full object-cover"
+            alt="Profile"
           />
-          <div className="w-[70vw] text-4xl font-bold flex justify-center items-center">
+          <div className="w-[70vw] text-4xl font-bold text-center">
             {username}
           </div>
         </div>
 
-        {/* other details */}
-
-        <div className="w-full h-[30vh] bg-slate-100 p-5 rounded-lg">
-          <p className="">
-            <span className="font-bold mr-4">Phone Number:</span>+91{' '}
-            {phoneNumber}
+        {/* Contact Details */}
+        <div className="w-full bg-slate-100 p-5 rounded-lg">
+          <p className="mb-2">
+            <span className="font-bold mr-4">Phone Number:</span>
+            +91 {phoneNumber}
           </p>
           <div className="flex">
             <p className="font-bold mr-4">Address:</p>
             <p className="leading-relaxed tracking-wide">{address}</p>
           </div>
-          {/* <p className=''><span className=''>Address:</span>{address}</p> */}
-          <p></p>
         </div>
       </div>
 
-      {/* lower part of add worker and all */}
-      <div className="w-full bg-slate-200 px-3  flex flex-col gap-4">
-        {/* workers and add workers and phone number */}
-        <div className="flex flex-col gap-3">
-          <p className="font-semibold text-2xl ml-4 mt-5 text-[#0097b3]">
-            Workers
-          </p>
-          <div className="flex flex-col gap-3 ml-4">
-            {workers.map((data, index) => {
-              return (
-                <div
-                  className="leading-relaxed tracking-wider bg-slate-100 px-4 p-3"
-                  key={index}
-                >
-                  {data}
-                </div>
-              );
-            })}
-          </div>
+      {/* Workers Section */}
+      <div className="w-full bg-slate-200 px-3 py-4 flex flex-col gap-4">
+        {/* Workers Header */}
+        <div className="flex justify-between items-center px-4">
+          <h3 className="font-semibold text-2xl text-[#0097b3]">Workers</h3>
+          <FaPlusCircle
+            className="text-2xl cursor-pointer"
+            onClick={() => setIsAddWorkerOpen(!isAddWorkerOpen)}
+          />
         </div>
-        {!isAddWorkerOpen ? (
-          <div className="flex justify-between px-4 bg-white h-12 items-center ml-4">
-            <p className="font-semibold">Add Worker</p>
-            <FaPlusCircle
-              onClick={() => {
-                setIsAddWorkerOpen(true);
-              }}
-            />
-          </div>
-        ) : (
-          <div className="ml-4">
-            <label htmlFor="workerName">Enter Worker Name</label>
-            <input
-              type="text"
-              id="workerName"
-              value={workerName}
-              className="px-4 py-3 w-full"
-              onChange={(e) => {
-                setWorkerName(e.target.value);
-              }}
-            />
-            <div className="flex justify-between mt-4">
-              <button
-                className="w-[40vw] py-2 bg-[#0192AD]"
-                //   onClick={handleAddWorker}
-              >
-                Add
-              </button>
-              <button
-                className="w-[40vw] py-2 bg-[#0192AD]"
-                onClick={() => {
-                  setIsAddWorkerOpen(false);
-                }}
-              >
-                Cancel
-              </button>
-            </div>
+
+        {/* Add Worker Form */}
+        {isAddWorkerOpen && (
+          <div className="px-4">
+            <form onSubmit={handleAddWorker} className="bg-white p-4 rounded-lg">
+              <input
+                type="text"
+                placeholder="Worker Name"
+                value={workerName}
+                onChange={(e) => setWorkerName(e.target.value)}
+                className="w-full p-2 border rounded mb-2"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Worker Role"
+                value={workerRole}
+                onChange={(e) => setWorkerRole(e.target.value)}
+                className="w-full p-2 border rounded mb-2"
+                required
+              />
+              <div className="flex justify-between">
+                <button
+                  type="submit"
+                  className="w-[48%] py-2 bg-[#0192AD] text-white rounded"
+                  disabled={loading}
+                >
+                  {loading ? 'Adding...' : 'Add'}
+                </button>
+                <button
+                  type="button"
+                  className="w-[48%] py-2 bg-gray-300 text-black rounded"
+                  onClick={() => setIsAddWorkerOpen(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
         )}
 
-        {/* phone number add */}
-        <form
-          className="flex flex-col justify-center items-center gap-5"
-          // onSubmit={handleAddPhoneNumber}
+        {/* Workers List */}
+        <div className="px-4 space-y-2">
+          {workers.map((worker, index) => (
+            <div 
+              key={index} 
+              className="bg-white p-3 rounded-lg"
+            >
+              <p className="font-semibold">{worker.name}</p>
+              <p className="text-gray-500">{worker.role?.join(', ')}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Secondary Phone Number */}
+        <form 
+          onSubmit={handleSendOTP} 
+          className="px-4 flex flex-col gap-4"
         >
-          <label className="font-medium" htmlFor="phone">
-            Enter Secondary Phone Number{' '}
-          </label>
+          <label className="font-medium">Enter Secondary Phone Number</label>
           <input
-            className="w-[85vw] h-12 rounded-lg text-xl tracking-widest font-semibold text-center"
-            type="number"
-            name="phone"
-            id="phone"
+            type="tel"
+            placeholder="10 digit phone number"
+            value={secondaryPhone}
+            onChange={(e) => setSecondaryPhone(e.target.value)}
             maxLength={10}
-            onChange={(e) => {
-              setSecondaryContractor(e.target.value);
-            }}
-            value={secondayContractor}
+            className="w-full h-12 rounded-lg text-center"
+            required
           />
           <button
-            className="bg-slate-400 text-white w-[85vw] h-12 rounded-lg flex justify-center items-center font-semibold text-lg"
             type="submit"
+            className="bg-[#0192AD] text-white w-full h-12 rounded-lg"
+            disabled={loading}
           >
-            Send OTP
+            {loading ? 'Sending...' : 'Send OTP'}
           </button>
         </form>
-        <div className="flex flex-col justify-center items-center gap-5">
-          <label className="font-medium" htmlFor="phone">
-            Enter Your OTP{' '}
-          </label>
-          <div className="w-[85vw] h-12">
+
+        {/* OTP Verification */}
+        {otpSent && (
+          <div className="px-4 flex flex-col gap-4">
+            <label className="font-medium">Enter OTP</label>
             <OTPInput
               value={otp}
               onChange={setOtp}
               numInputs={6}
-              inputType="tel"
-              renderSeparator={<span className="w-2"></span>}
-              containerStyle={{
-                width: '85vw',
-                height: '6vh',
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              inputStyle={{
-                width: '12vw',
-                height: '6vh',
-                borderColor: 'black',
-                border: 2,
-              }}
-              renderInput={(props) => <input className="h-12" {...props} />}
+              renderSeparator={<span className="mx-1">-</span>}
+              renderInput={(props) => <input {...props} className="w-10 text-center border" />}
             />
+            <button
+              onClick={handleVerifyOTP}
+              className="bg-[#0192AD] text-white w-full h-12 rounded-lg"
+              disabled={loading}
+            >
+              {loading ? 'Verifying...' : 'Verify OTP'}
+            </button>
           </div>
-        </div>
+        )}
+
+        {/* Error Display */}
+        {error && (
+          <div className="bg-red-100 text-red-700 p-3 text-center">
+            {error}
+          </div>
+        )}
       </div>
+
       <Footer />
     </div>
   );

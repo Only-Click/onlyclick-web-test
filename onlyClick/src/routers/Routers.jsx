@@ -30,7 +30,7 @@ function Routers() {
         <Route path="home" element={<HomePageUser />} />
         <Route path="profile" element={<UserProfile />} />
         <Route path="cart" element={<Cart />} />
-        <Route path="cart/checkout" element={<Checkout/>} />
+        <Route path="cart/checkout" element={<Checkout />} />
         <Route path="category/:name" element={<CategoryPage />} />
         <Route path="category/:name/:sub_id" element={<SubCategoryPage />} />
         <Route path="service/:id" element={<ServicesPage />} />

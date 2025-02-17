@@ -20,7 +20,7 @@ function Checkout() {
   const [total, setTotal] = useState(0);
   const [finalTotal, setFinalTotal] = useState(0);
   const [date, setDate] = useState('');
-  const [isBooked,setIsBooked]=useState(false)
+  const [isBooked, setIsBooked] = useState(false);
   useEffect(() => {
     const state = location.state;
     console.log('state', state);
@@ -146,13 +146,15 @@ function Checkout() {
       <div className="w-full flex justify-center items-center mt-4 mb-4">
         <button
           className="px-3 text-lg text-white font-medium py-1 bg-[#0097b3] rounded-md"
-          onClick={() => {setIsBooked(true)}}
+          onClick={() => {
+            setIsBooked(true);
+          }}
         >
           Book Service
         </button>
       </div>
       <Footer />
-      <ServiceConfirmed isBooked={isBooked}/>
+      <ServiceConfirmed isBooked={isBooked} />
     </div>
   );
 }

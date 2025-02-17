@@ -14,7 +14,6 @@ function OtpScreen() {
   }, [location.state]);
 
   const verifyOtp = async () => {
-
     // try {
     //   const response = await axios.post(
     //     '/api/contractors/validOTP',
@@ -23,7 +22,6 @@ function OtpScreen() {
     //       otp,
     //     }
     //   );
-
     //   if (response.status === 200) {
     //     navigate('/home/contractor');
     //   } else if (response.status === 201) {

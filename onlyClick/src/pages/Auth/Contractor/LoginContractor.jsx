@@ -1,15 +1,15 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router";
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 function LoginContractor() {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setPhoneNumber("");
-   //navigate to otp screen of contractor only
+    setPhoneNumber('');
+    //navigate to otp screen of contractor only
   };
 
   return (
@@ -19,7 +19,7 @@ function LoginContractor() {
         onSubmit={handleSubmit}
       >
         <label className="font-medium" htmlFor="phone">
-          Enter Your Phone Number{""}
+          Enter Your Phone Number{''}
         </label>
         <input
           className="w-[85vw] h-12 rounded-lg text-xl tracking-widest font-semibold text-center"
