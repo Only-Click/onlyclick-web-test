@@ -168,6 +168,7 @@ function HomePageUser() {
           <p>Popular Services</p>
           <Link to="/services">See all {'>'}</Link>
         </div>
+<<<<<<< HEAD
         <div
           style={{
             display: 'flex',
@@ -180,6 +181,9 @@ function HomePageUser() {
           }}
           className="flex"
         >
+=======
+        <div className="flex flex-nowrap overflow-x-scroll overflow-y-hidden gap-4">
+>>>>>>> 3e44b283c36ac0719fa834687e12e4d48e8951db
           {popularServices.map((data, index) => (
             <ServicesCard key={index} data={data} />
           ))}
