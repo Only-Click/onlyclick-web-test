@@ -15,7 +15,7 @@ function OtpContractor() {
     setPhoneNumber(location.state?.phoneNumber);
     if (!location.state?.phoneNumber) {
       window.alert('Please enter a  phone number');
-    //   navigate(-1);
+      //   navigate(-1);
     }
   }, [location.state]);
 

@@ -22,7 +22,10 @@ function ServiceConfirmed({ isBooked }) {
           Your service is Confirmed
         </p>
         <p className="text-lg font-medium">Thank You!</p>
-        <Link className="bg-[#0097b3] px-8 text-lg text-white py-1" to="/user/home">
+        <Link
+          className="bg-[#0097b3] px-8 text-lg text-white py-1"
+          to="/user/home"
+        >
           Done
         </Link>
       </div>

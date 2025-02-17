@@ -41,27 +41,27 @@ function ServicesPage() {
       <Header address={address} username={'Vivek'} />
 
       {/* navigation bar */}
-        <div className="w-full h-[7vh]  px-4 flex justify-between items-center">
-          <div className="flex gap-2 items-center">
-            <p
-              className="text-2xl text-slate-500"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              {'<'}
-            </p>
-            <p className="text-black font-bold text-2xl">Service Title</p>
-          </div>
-          <div className="flex gap-2">
-            <Link to="/user/cart">
-              <CiShoppingCart className="h-full w-[9.9vw] text-black" />
-            </Link>
-            <NavLink to="/user/profile">
-              <FaCircleUser className="h-full w-[9.9vw] text-slate-400" />
-            </NavLink>
-          </div>
+      <div className="w-full h-[7vh]  px-4 flex justify-between items-center">
+        <div className="flex gap-2 items-center">
+          <p
+            className="text-2xl text-slate-500"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            {'<'}
+          </p>
+          <p className="text-black font-bold text-2xl">Service Title</p>
         </div>
+        <div className="flex gap-2">
+          <Link to="/user/cart">
+            <CiShoppingCart className="h-full w-[9.9vw] text-black" />
+          </Link>
+          <NavLink to="/user/profile">
+            <FaCircleUser className="h-full w-[9.9vw] text-slate-400" />
+          </NavLink>
+        </div>
+      </div>
 
       {/*details*/}
       <div className="w-full pt-2">
@@ -83,7 +83,7 @@ function ServicesPage() {
               </p>
               <p>(99 reviews)</p>
             </div>
-          </div>  
+          </div>
 
           {/* description */}
           <div className="flex flex-col p-3 gap-5">
@@ -115,7 +115,7 @@ function ServicesPage() {
 
           {/* reviews */}
           <div className="w-full flex flex-col gap-3">
-            <p className='text-xl font-bold'>Reviews</p>
+            <p className="text-xl font-bold">Reviews</p>
             <RatingCard data={data.ratingData} />
           </div>
           {/* booking div */}

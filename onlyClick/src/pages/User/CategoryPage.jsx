@@ -72,7 +72,7 @@ function CategoryPage() {
       </div>
 
       {/* footer */}
-      <Footer/>
+      <Footer />
     </div>
   );
 }

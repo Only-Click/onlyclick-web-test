@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-function Assigned({open,setOpen}) {
-//   const [isOpen, setIsOpen] = useState(open);
+function Assigned({ open, setOpen }) {
+  //   const [isOpen, setIsOpen] = useState(open);
   const [data, setData] = useState([
     {
       name: 'Worker A',
@@ -115,7 +115,11 @@ function Assigned({open,setOpen}) {
                 <p>{data.Location}</p>
               </div>
               <div className={`flex justify-center items-center `}>
-                <p className={`${data.Status==="Working"?"bg-[#D2B645]":data.Status==="Cancelled"?"bg-red-400":data.Status==="Completed"?"bg-green-300":"bg-[#D2B645]"} px-7 py-1 text-white font-semibold rounded-md`}>{data.Status}</p>
+                <p
+                  className={`${data.Status === 'Working' ? 'bg-[#D2B645]' : data.Status === 'Cancelled' ? 'bg-red-400' : data.Status === 'Completed' ? 'bg-green-300' : 'bg-[#D2B645]'} px-7 py-1 text-white font-semibold rounded-md`}
+                >
+                  {data.Status}
+                </p>
               </div>
             </div>
           );

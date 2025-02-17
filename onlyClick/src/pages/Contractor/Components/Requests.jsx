@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-function Requests({open,setOpen}) {
-//   const [isOpen, setIsOpen] = useState(open);
+function Requests({ open, setOpen }) {
+  //   const [isOpen, setIsOpen] = useState(open);
   const [data, setData] = useState([
     {
       name: 'Worker A',
