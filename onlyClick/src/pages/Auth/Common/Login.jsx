@@ -33,49 +33,49 @@ function Login() {
     try {
       const payload = {
         ...(loginMethod === 'phone' ? { phoneNumber } : { email }),
-        ...(password && { password }) // Only include password if it's not empty
+        ...(password && { password }), // Only include password if it's not empty
       };
 
       const response = await axios.post('/api/auth/login', payload, {
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
       });
-      
+
       if (response.status === 200) {
         // Different navigation based on login method
         if (loginMethod === 'phone') {
-          navigate('/auth/contractor/verifyOtp', { 
-            state: { 
+          navigate('/auth/contractor/verifyOtp', {
+            state: {
               phoneNumber,
-              loginMethod 
-            } 
+              loginMethod,
+            },
           });
         } else {
           // Check if additional verification is needed
           if (response.data.requiresOtp) {
-            navigate('/auth/verify-otp', { 
-              state: { 
+            navigate('/auth/verify-otp', {
+              state: {
                 email,
-                loginMethod 
-              } 
+                loginMethod,
+              },
             });
           } else {
             // Store tokens securely
             const { accessToken, refreshToken } = response.data.data;
-            
+
             Cookies.set('accessToken', accessToken, {
               secure: true,
               sameSite: 'strict',
             });
-            
+
             Cookies.set('refreshToken', refreshToken, {
               secure: true,
               sameSite: 'strict',
             });
 
             // Navigate to appropriate dashboard
-            navigate('/contractor/home'); 
+            navigate('/contractor/home');
           }
         }
       }
@@ -107,7 +107,7 @@ function Login() {
   };
 
   const toggleLoginMethod = () => {
-    setLoginMethod(prev => prev === 'phone' ? 'email' : 'phone');
+    setLoginMethod((prev) => (prev === 'phone' ? 'email' : 'phone'));
     // Reset fields when switching
     setPhoneNumber('');
     setEmail('');
@@ -117,8 +117,8 @@ function Login() {
 
   return (
     <div className="min-h-screen bg-slate-200 flex flex-col justify-center items-center p-4">
-      <form 
-        onSubmit={handleSubmit} 
+      <form
+        onSubmit={handleSubmit}
         className="w-full max-w-md bg-white p-8 rounded-lg shadow-md"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">
@@ -133,8 +133,8 @@ function Login() {
 
         {loginMethod === 'phone' ? (
           <div className="mb-4">
-            <label 
-              htmlFor="phone" 
+            <label
+              htmlFor="phone"
               className="block text-gray-700 font-bold mb-2"
             >
               Phone Number
@@ -153,8 +153,8 @@ function Login() {
           </div>
         ) : (
           <div className="mb-4">
-            <label 
-              htmlFor="email" 
+            <label
+              htmlFor="email"
               className="block text-gray-700 font-bold mb-2"
             >
               Email
@@ -173,8 +173,8 @@ function Login() {
 
         {/* Optional Password Field */}
         <div className="mb-4">
-          <label 
-            htmlFor="password" 
+          <label
+            htmlFor="password"
             className="block text-gray-700 font-bold mb-2"
           >
             Password (Optional)
@@ -194,11 +194,15 @@ function Login() {
           className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
           disabled={loading}
         >
-          {loading ? 'Processing...' : (loginMethod === 'phone' ? 'Send OTP' : 'Login')}
+          {loading
+            ? 'Processing...'
+            : loginMethod === 'phone'
+              ? 'Send OTP'
+              : 'Login'}
         </button>
 
         <div className="text-center mt-4">
-          <button 
+          <button
             type="button"
             onClick={toggleLoginMethod}
             className="text-blue-500 hover:underline"
@@ -209,8 +213,8 @@ function Login() {
 
         {/* Additional Links */}
         <div className="text-center mt-4">
-          <a 
-            href="/forgot-password" 
+          <a
+            href="/forgot-password"
             className="text-sm text-gray-600 hover:underline"
           >
             Forgot Password?

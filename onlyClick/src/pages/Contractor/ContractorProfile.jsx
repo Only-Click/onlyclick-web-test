@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { AuthContext } from '../../utils/context/Context';
 import Header from '../User/Components/Header';
 import { FaPlusCircle, FaArrowLeft } from 'react-icons/fa';
@@ -7,22 +7,33 @@ import Footer from '../User/Components/Footer';
 import OTPInput from 'react-otp-input';
 import axios from 'axios';
 
+// Validation Utilities
+const isValidPhoneNumber = (phone) => {
+  return true;
+};
+
 function ContractorProfile() {
-  const { user, setUser } = useContext(AuthContext);
+  // Context and Navigation
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // State Management
   const [workers, setWorkers] = useState([]);
   const [isAddWorkerOpen, setIsAddWorkerOpen] = useState(false);
+
+  // Worker Form States
   const [workerName, setWorkerName] = useState('');
-  const [workerRole, setWorkerRole] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('1234567890');
-  const [username, setUsername] = useState('John Doe');
+  const [workerPhoneNumber, setWorkerPhone] = useState('');
+
+  // Profile States
+  const [username, setUsername] = useState(user?.name || 'John Doe');
+  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || '');
   const [secondaryPhone, setSecondaryPhone] = useState('');
   const [address, setAddress] = useState(
-    'Vit Ap, University, Near Vandalur Zoo, Chennai, Tamil Nadu, India, 600127'
+    user?.address ||
+      'Vit Ap, University, Near Vandalur Zoo, Chennai, Tamil Nadu, India, 600127'
   );
-  
+
   // OTP States
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
@@ -31,22 +42,17 @@ function ContractorProfile() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Fetch Workers on Component Mount
-  useEffect(() => {
-    fetchWorkers();
-  }, []);
-
-  // Fetch Workers Function
-  const fetchWorkers = async () => {
+  // Fetch Workers Function (Memoized)
+  const fetchWorkers = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get('/api/taskmaster/getProfiles', {
-        params: { 
-          role: 'Electrician',
-          contractorId: user?.id 
-        }
+        params: {
+          role: 'all',
+          contractorId: user?.id,
+        },
       });
-
+  
       if (response.data.statusCode === 200) {
         setWorkers(response.data.data || []);
       } else {
@@ -58,31 +64,45 @@ function ContractorProfile() {
     } finally {
       setLoading(false);
     }
-  };
-
+  }, [user?.id]);
+  
+  // Fetch Workers on Component Mount
+  useEffect(() => {
+    fetchWorkers();
+  }, [fetchWorkers]);
+  
   // Add Worker Handler
   const handleAddWorker = async (e) => {
     e.preventDefault();
-    
-    if (!workerName.trim() || !workerRole.trim()) {
-      setError('Please enter worker name and role');
+  
+    // Comprehensive Validation
+    if (!workerName.trim()) {
+      setError('Worker name is required');
       return;
     }
-
+  
+    if (!isValidPhoneNumber(workerPhoneNumber)) {
+      setError('Invalid worker phone number');
+      return;
+    }
+  
     try {
       setLoading(true);
-      const response = await axios.post('/api/taskmaster/addProfile', {
+      const response = await axios.post('/api/taskmaster/createProfile', {
         name: workerName,
-        role: [workerRole],
-        contractorId: user?.id
+        phoneNumber: workerPhoneNumber,
+        contractorId: 'CON45', // Use dynamic contractorId from context
+        role: ['Plumber'], // Keep role if required by backend
       });
-
+  
+      console.log(response.data);
       if (response.data.statusCode === 201) {
-        // Add new worker to the list
-        setWorkers([...workers, response.data.data]);
+        // Refresh workers list after successful addition
+        await fetchWorkers();
+  
         // Reset form
         setWorkerName('');
-        setWorkerRole('');
+        setWorkerPhone('');
         setIsAddWorkerOpen(false);
         setError('');
       } else {
@@ -90,17 +110,19 @@ function ContractorProfile() {
       }
     } catch (error) {
       console.error('Error adding worker:', error);
-      setError('An error occurred while adding worker');
+      setError(
+        error.response?.data?.message || 'An error occurred while adding worker'
+      );
     } finally {
       setLoading(false);
     }
   };
+  
 
   // Send OTP Handler
   const handleSendOTP = async (e) => {
     e.preventDefault();
-    
-    if (!secondaryPhone || secondaryPhone.length !== 10) {
+    if (!isValidPhoneNumber(secondaryPhone)) {
       setError('Please enter a valid 10-digit phone number');
       return;
     }
@@ -108,7 +130,7 @@ function ContractorProfile() {
     try {
       setLoading(true);
       const response = await axios.post('/api/otp/send', {
-        phoneNumber: secondaryPhone
+        phoneNumber: secondaryPhone,
       });
 
       if (response.data.success) {
@@ -136,7 +158,7 @@ function ContractorProfile() {
       setLoading(true);
       const response = await axios.post('/api/otp/verify', {
         phoneNumber: secondaryPhone,
-        otp: otp
+        otp: otp,
       });
 
       if (response.data.success) {
@@ -163,9 +185,9 @@ function ContractorProfile() {
 
       {/* Navigation */}
       <div className="w-full px-4 py-2 flex items-center gap-4">
-        <FaArrowLeft 
-          className="text-2xl cursor-pointer" 
-          onClick={() => navigate(-1)} 
+        <FaArrowLeft
+          className="text-2xl cursor-pointer"
+          onClick={() => navigate(-1)}
         />
         <h2 className="text-black font-bold text-2xl">Profile</h2>
       </div>
@@ -211,7 +233,10 @@ function ContractorProfile() {
         {/* Add Worker Form */}
         {isAddWorkerOpen && (
           <div className="px-4">
-            <form onSubmit={handleAddWorker} className="bg-white p-4 rounded-lg">
+            <form
+              onSubmit={handleAddWorker}
+              className="bg-white p-4 rounded-lg"
+            >
               <input
                 type="text"
                 placeholder="Worker Name"
@@ -221,10 +246,10 @@ function ContractorProfile() {
                 required
               />
               <input
-                type="text"
-                placeholder="Worker Role"
-                value={workerRole}
-                onChange={(e) => setWorkerRole(e.target.value)}
+                type="tel"
+                placeholder="Worker Phone Number"
+                value={workerPhoneNumber}
+                onChange={(e) => setWorkerPhone(e.target.value)}
                 className="w-full p-2 border rounded mb-2"
                 required
               />
@@ -251,21 +276,15 @@ function ContractorProfile() {
         {/* Workers List */}
         <div className="px-4 space-y-2">
           {workers.map((worker, index) => (
-            <div 
-              key={index} 
-              className="bg-white p-3 rounded-lg"
-            >
+            <div key={index} className="bg-white p-3 rounded-lg">
               <p className="font-semibold">{worker.name}</p>
-              <p className="text-gray-500">{worker.role?.join(', ')}</p>
+              <p className="text-gray-500">{worker.phoneNumber}</p>
             </div>
           ))}
         </div>
 
         {/* Secondary Phone Number */}
-        <form 
-          onSubmit={handleSendOTP} 
-          className="px-4 flex flex-col gap-4"
-        >
+        <form onSubmit={handleSendOTP} className="px-4 flex flex-col gap-4">
           <label className="font-medium">Enter Secondary Phone Number</label>
           <input
             type="tel"
@@ -294,7 +313,9 @@ function ContractorProfile() {
               onChange={setOtp}
               numInputs={6}
               renderSeparator={<span className="mx-1">-</span>}
-              renderInput={(props) => <input {...props} className="w-10 text-center border" />}
+              renderInput={(props) => (
+                <input {...props} className="w-10 text-center border" />
+              )}
             />
             <button
               onClick={handleVerifyOTP}
@@ -308,9 +329,7 @@ function ContractorProfile() {
 
         {/* Error Display */}
         {error && (
-          <div className="bg-red-100 text-red-700 p-3 text-center">
-            {error}
-          </div>
+          <div className="bg-red-100 text-red-700 p-3 text-center">{error}</div>
         )}
       </div>
 

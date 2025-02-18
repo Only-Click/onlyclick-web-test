@@ -15,10 +15,10 @@ import Footer from './Components/Footer';
 import { AuthContext } from '../../utils/context/Context';
 
 // // API Services
-// import { 
-//   fetchPopularServices, 
-//   fetchCategories, 
-//   fetchSlideableCards 
+// import {
+//   fetchPopularServices,
+//   fetchCategories,
+//   fetchSlideableCards
 // } from '../../services/apiServices';
 
 function HomePageUser() {
@@ -29,7 +29,7 @@ function HomePageUser() {
   const [username, setUsername] = useState('User');
   const [address, setAddress] = useState('');
   const [search, setSearch] = useState('');
-  
+
   // Data States
   const [popularServices, setPopularServices] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -39,7 +39,7 @@ function HomePageUser() {
   const [loading, setLoading] = useState({
     services: false,
     categories: false,
-    slides: false
+    slides: false,
   });
   const [error, setError] = useState(null);
 
@@ -59,18 +59,19 @@ function HomePageUser() {
   const fetchData = async () => {
     try {
       // Set loading states
-      setLoading(prev => ({
+      setLoading((prev) => ({
         services: true,
         categories: true,
-        slides: true
+        slides: true,
       }));
 
       // Parallel data fetching
-      const [servicesResponse, categoriesResponse, slidesResponse] = await Promise.all([
-        fetchPopularServices(),
-        fetchCategories(),
-        fetchSlideableCards()
-      ]);
+      const [servicesResponse, categoriesResponse, slidesResponse] =
+        await Promise.all([
+          fetchPopularServices(),
+          fetchCategories(),
+          fetchSlideableCards(),
+        ]);
 
       // Update states
       setPopularServices(servicesResponse.data || []);
@@ -81,10 +82,10 @@ function HomePageUser() {
       setError('Failed to load data. Please try again.');
     } finally {
       // Reset loading states
-      setLoading(prev => ({
+      setLoading((prev) => ({
         services: false,
         categories: false,
-        slides: false
+        slides: false,
       }));
     }
   };
@@ -143,7 +144,7 @@ function HomePageUser() {
           />
         </div>
         <div className="h-full w-[20vw] pl-2">
-          <IoFilterSharp 
+          <IoFilterSharp
             className="h-full w-[9vw] bg-gray-200 px-2 rounded-lg cursor-pointer"
             onClick={() => navigate('/filters')}
           />
@@ -186,9 +187,11 @@ function HomePageUser() {
       <div className="w-full px-4 flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <p className="font-semibold">Popular Services</p>
-          <Link to="/services" className="text-blue-500">See all {'>'}</Link>
+          <Link to="/services" className="text-blue-500">
+            See all {'>'}
+          </Link>
         </div>
-        
+
         <div className="flex overflow-x-auto space-x-4 pb-4">
           {loading.services ? (
             <p>Loading services...</p>
