@@ -52,7 +52,7 @@ function ContractorProfile() {
           contractorId: user?.id,
         },
       });
-  
+
       if (response.data.statusCode === 200) {
         setWorkers(response.data.data || []);
       } else {
@@ -65,27 +65,27 @@ function ContractorProfile() {
       setLoading(false);
     }
   }, [user?.id]);
-  
+
   // Fetch Workers on Component Mount
   useEffect(() => {
     fetchWorkers();
   }, [fetchWorkers]);
-  
+
   // Add Worker Handler
   const handleAddWorker = async (e) => {
     e.preventDefault();
-  
+
     // Comprehensive Validation
     if (!workerName.trim()) {
       setError('Worker name is required');
       return;
     }
-  
+
     if (!isValidPhoneNumber(workerPhoneNumber)) {
       setError('Invalid worker phone number');
       return;
     }
-  
+
     try {
       setLoading(true);
       const response = await axios.post('/api/taskmaster/createProfile', {
@@ -94,12 +94,12 @@ function ContractorProfile() {
         contractorId: 'CON45', // Use dynamic contractorId from context
         role: ['Plumber'], // Keep role if required by backend
       });
-  
+
       console.log(response.data);
       if (response.data.statusCode === 201) {
         // Refresh workers list after successful addition
         await fetchWorkers();
-  
+
         // Reset form
         setWorkerName('');
         setWorkerPhone('');
@@ -117,7 +117,6 @@ function ContractorProfile() {
       setLoading(false);
     }
   };
-  
 
   // Send OTP Handler
   const handleSendOTP = async (e) => {

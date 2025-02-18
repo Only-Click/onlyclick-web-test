@@ -6,19 +6,21 @@ import axios from 'axios';
 function SignUpContractor() {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   // Generate a random contractor ID
   const generateRandomContractorId = () => {
     return `CON${Math.floor(Math.random() * 10000)}`; // Generates a random ID
   };
 
-  const [contractorId, setContractorId] = useState(generateRandomContractorId());
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); 
-  const [phoneNumber, setPhoneNumber] = useState(""); 
-  const [address, setAddress] = useState(""); 
-  const [role] = useState("contractor");
+  const [contractorId, setContractorId] = useState(
+    generateRandomContractorId()
+  );
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [role] = useState('contractor');
 
   useEffect(() => {
     if (location.state && location.state.phoneNumber) {
@@ -41,7 +43,7 @@ function SignUpContractor() {
       const response = await axios.post('/api/auth/register', packet);
       console.log(response);
     } catch (error) {
-      console.error("There was an error registering the contractor!", error);
+      console.error('There was an error registering the contractor!', error);
     }
   };
 
@@ -69,7 +71,9 @@ function SignUpContractor() {
               onSubmit={handleSubmit}
             >
               <div className="flex flex-col gap-4">
-                <label className="font-medium" htmlFor="contractorId">Contractor ID</label>
+                <label className="font-medium" htmlFor="contractorId">
+                  Contractor ID
+                </label>
                 <input
                   className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
@@ -82,7 +86,9 @@ function SignUpContractor() {
                 />
               </div>
               <div className="flex flex-col gap-4">
-                <label className="font-medium" htmlFor="name">Name</label>
+                <label className="font-medium" htmlFor="name">
+                  Name
+                </label>
                 <input
                   className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
@@ -94,7 +100,9 @@ function SignUpContractor() {
                 />
               </div>
               <div className="flex flex-col gap-4">
-                <label className="font-medium" htmlFor="email">Email</label>
+                <label className="font-medium" htmlFor="email">
+                  Email
+                </label>
                 <input
                   className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="email"
@@ -106,7 +114,9 @@ function SignUpContractor() {
                 />
               </div>
               <div className="flex flex-col gap-4">
-                <label className="font-medium" htmlFor="password">Password</label>
+                <label className="font-medium" htmlFor="password">
+                  Password
+                </label>
                 <input
                   className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="password"
@@ -118,7 +128,9 @@ function SignUpContractor() {
                 />
               </div>
               <div className="flex flex-col gap-4">
-                <label className="font-medium" htmlFor="phoneNumber">Phone Number</label>
+                <label className="font-medium" htmlFor="phoneNumber">
+                  Phone Number
+                </label>
                 <input
                   className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
@@ -130,7 +142,9 @@ function SignUpContractor() {
                 />
               </div>
               <div className="flex flex-col gap-4">
-                <label className="font-medium" htmlFor="address">Address</label>
+                <label className="font-medium" htmlFor="address">
+                  Address
+                </label>
                 <input
                   className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
