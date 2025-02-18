@@ -82,7 +82,7 @@ function SignUpContractor() {
                   First Name
                 </label>
                 <input
-                  className="w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
+                  className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
                   name="firstName"
                   id="firstName"
@@ -96,7 +96,7 @@ function SignUpContractor() {
                   Last Name
                 </label>
                 <input
-                  className="w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
+                  className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
                   name="lastName"
                   id="lastName"
@@ -110,7 +110,7 @@ function SignUpContractor() {
                   Category
                 </label>
                 <select
-                  className="w-full min-w-[85vw] max-w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
+                  className="w-full min-w-[85vw] max-w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   name="category"
                   id="category"
                   onChange={(e) => {
@@ -142,7 +142,7 @@ function SignUpContractor() {
                   Building Name
                 </label>
                 <input
-                  className="w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
+                  className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
                   name="buildingName"
                   id="buildingName"
@@ -156,7 +156,7 @@ function SignUpContractor() {
                   Street Address
                 </label>
                 <input
-                  className="w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
+                  className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
                   name="streetAddress"
                   id="streetAddress"
@@ -170,7 +170,7 @@ function SignUpContractor() {
                   Nearby Landmark
                 </label>
                 <input
-                  className="w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
+                  className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
                   name="nearbyLandmark"
                   id="nearbyLandmark"
@@ -184,7 +184,7 @@ function SignUpContractor() {
                   City
                 </label>
                 <input
-                  className="w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
+                  className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
                   name="city"
                   id="city"
@@ -198,7 +198,7 @@ function SignUpContractor() {
                   State
                 </label>
                 <input
-                  className="w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
+                  className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
                   name="state"
                   id="state"
@@ -212,7 +212,7 @@ function SignUpContractor() {
                   Country
                 </label>
                 <input
-                  className="w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
+                  className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
                   type="text"
                   name="country"
                   id="country"
@@ -226,8 +226,8 @@ function SignUpContractor() {
                   Pincode
                 </label>
                 <input
-                  className="w-[85vw] h-8 rounded-lg bg-[#E2EFF2]"
-                  type="text"
+                  className="w-[85vw] h-8 rounded-lg pl-3 py-1 bg-[#E2EFF2] focus:border-2 focus:border-[#0097b3] focus:outline-none"
+                  type="number"
                   name="pincode"
                   id="pincode"
                   onChange={(e) => setPincode(e.target.value)}
