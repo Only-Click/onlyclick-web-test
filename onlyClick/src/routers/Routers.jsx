@@ -16,6 +16,7 @@ import Cart from '../pages/User/Cart.jsx';
 import DashBoardContractor from '../pages/Contractor/DashBoardContractor.jsx';
 import ContractorProfile from '../pages/Contractor/ContractorProfile.jsx';
 import Checkout from '../pages/User/Checkout.jsx';
+import ContractorServicesPage from '../pages/Contractor/ContractorServicePage.jsx';
 
 function Routers() {
   return (
@@ -43,6 +44,7 @@ function Routers() {
           </Route>
           <Route path="signup" element={<SignUpContractor />} />
         </Route>
+        <Route path="services" element={<ContractorServicesPage />} />
         <Route path="home" element={<DashBoardContractor />} />
         <Route path="profile" element={<ContractorProfile />} />
       </Route>
