@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router';
 import LandingPage from '../pages/LandingPage.jsx';
 import Login from '../pages/Auth/Common/Login.jsx';
-import SignUpUser from '../pages/Auth/SignUpUser.jsx';
 import OtpScreen from '../pages/Auth/Common/OtpScreen.jsx';
 import SignUpContractor from '../pages/Auth/Contractor/SignUpContractor.jsx';
 import HomePage from '../pages/Contractor/DashBoardContractor.jsx';
@@ -17,6 +16,7 @@ import DashBoardContractor from '../pages/Contractor/DashBoardContractor.jsx';
 import ContractorProfile from '../pages/Contractor/ContractorProfile.jsx';
 import Checkout from '../pages/User/Checkout.jsx';
 import ContractorServicesPage from '../pages/Contractor/ContractorServicePage.jsx';
+import CreateAccount from '../pages/Auth/CreateAccount.jsx';
 
 function Routers() {
   return (
@@ -25,7 +25,7 @@ function Routers() {
       <Route path="auth/*">
         <Route path="login" element={<Login />} />
         <Route path="otp" element={<OtpScreen />} />
-        <Route path="signup" element={<SignUpUser />} />
+        <Route path="signup" element={<CreateAccount />} />
       </Route>
       <Route path="user/*">
         <Route path="home" element={<HomePageUser />} />
