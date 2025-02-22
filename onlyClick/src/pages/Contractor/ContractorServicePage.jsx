@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Header from '../User/Components/Header';
+import { Link } from 'react-router-dom';
 
 const services = [
   {
@@ -16,13 +18,13 @@ const services = [
 ];
 
 const ContractorServicesPage = () => {
+  const [username,setUsername] = useState('User');
+  const [address,setAddress] = useState('Some where in the world');
   return (
-    <div className="bg-gray-100 min-h-screen flex justify-center items-center p-5">
-      <div className="app-container w-full max-w-md h-[90vh] relative bg-white border-2 border-sky-600 rounded-2xl overflow-hidden shadow-lg">
-        {/* Top Banner */}
-        <div className="top-banner bg-sky-600 h-1/10 flex items-center px-5 rounded-t-2xl">
-          <h1 className="text-white text-xl font-semibold">Services</h1>
-        </div>
+      <div className="app-container w-full h-screen relative bg-white border-2 border-sky-600 overflow-hidden shadow-lg">
+        <Header username={username} address={address} />
+          <h1 className="text-black text-xl font-semibold ml-4 mt-3"><Link to={-1}>{`<  `}</Link>Services</h1>
+
 
         {/* Navigation Bar */}
         <div className="nav-header flex justify-between items-center p-4 bg-white shadow-sm">
@@ -33,7 +35,7 @@ const ContractorServicesPage = () => {
         </div>
 
         {/* Service Cards */}
-        <div className="services-container p-5 overflow-y-auto h-[calc(90vh-120px)]">
+        <div className="services-container p-5 overflow-y-auto h-[calc(100vh-120px)]" style={styles.servicesContainer}>
           {services.map(({ title, price }, index) => (
             <div
               key={index}
@@ -59,8 +61,17 @@ const ContractorServicesPage = () => {
           ))}
         </div>
       </div>
-    </div>
   );
+};
+
+const styles = {
+  servicesContainer: {
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 };
 
 export default ContractorServicesPage;
