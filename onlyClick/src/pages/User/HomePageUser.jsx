@@ -66,12 +66,7 @@ function HomePageUser() {
       }));
 
       // Parallel data fetching
-      const [servicesResponse, categoriesResponse, slidesResponse] =
-        await Promise.all([
-          fetchPopularServices(),
-          fetchCategories(),
-          fetchSlideableCards(),
-        ]);
+
 
       // Update states
       setPopularServices(servicesResponse.data || []);

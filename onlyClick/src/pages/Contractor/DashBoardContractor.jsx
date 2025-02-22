@@ -98,9 +98,8 @@ function DashBoardContractor() {
                 navigate(-1);
               }}
             >
-              {'<'}
             </p>
-            <p className="text-black font-bold text-2xl">Dashboard</p>
+            <Link to={-1} className="text-black font-bold text-2xl">{`< `}Dashboard</Link>
           </div>
           <div className="flex gap-2">
             <NavLink to="/contractor/profile">
@@ -148,9 +147,17 @@ function DashBoardContractor() {
           </div>
         </div>
 
-        <div style={{display: 'flex', justifyContent: 'space-between', padding: '12px'}}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '12px',
+          }}
+        >
           <span>Services</span>
-          <span><Link to='/contractor/services'>{`See all  >`}</Link></span>
+          <span>
+            <Link to="/contractor/services">{`See all  >`}</Link>
+          </span>
         </div>
 
         {/* Reviews */}
