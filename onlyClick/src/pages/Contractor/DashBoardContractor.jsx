@@ -150,7 +150,7 @@ function DashBoardContractor() {
 
         <div style={{display: 'flex', justifyContent: 'space-between', padding: '12px'}}>
           <span>Services</span>
-          <span>See all<Link to='/contractor/services'>{`  >`}</Link></span>
+          <span><Link to='/contractor/services'>{`See all  >`}</Link></span>
         </div>
 
         {/* Reviews */}

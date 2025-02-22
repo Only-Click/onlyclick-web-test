@@ -23,7 +23,7 @@ const ContractorServicesPage = () => {
   return (
       <div className="app-container w-full h-screen relative bg-white border-2 border-sky-600 overflow-hidden shadow-lg">
         <Header username={username} address={address} />
-          <h1 className="text-black text-xl font-semibold ml-4 mt-3"><Link to={-1}>{`<  `}</Link>Services</h1>
+          <h1 className="text-black text-xl font-semibold ml-4 mt-3"><Link to={-1}>{`<  Services`}</Link></h1>
 
 
         {/* Navigation Bar */}
