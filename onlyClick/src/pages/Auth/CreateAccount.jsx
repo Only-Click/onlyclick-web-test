@@ -1,26 +1,40 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 const CreateAccount = () => {
-    // State for form inputs
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
+  // State for form inputs
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [address, setAddress] = useState('');
 
-    // Handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // You can add your form submission logic here
-        console.log('Form submitted:', { name, email, phone });
-        // Reset form fields
-        setName('');
-        setEmail('');
-        setPhone('');
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const packet = {
+      name,
+      phoneNumber: phone,
+      password,
+      address,
+      role: 'user',
     };
+    try {
+      const response = await axios.post('/api/auth/register', packet); // Include packet in the request
+      console.log('Account created successfully:', response.data);
+    } catch (error) {
+      console.error('Error creating account:', error);
+    }
+    // Reset form fields
+    setName('');
+    setPhone('');
+    setPassword('');
+    setAddress('');
+  };
 
-    return (
-        <div className="container">
-            <style>
-                {`
+  return (
+    <div className="container">
+      <style>
+        {`
                     * {
                         margin: 0;
                         padding: 0;
@@ -125,57 +139,73 @@ const CreateAccount = () => {
                         object-fit: contain;
                     }
                 `}
-            </style>
+      </style>
 
-            {/* Top 35% for image */}
-            <div className="image-container">
-                <img src="/pic.jpeg" alt="Image" className="logo-image" />
-            </div>
+      {/* Top 35% for image */}
+      <div className="image-container">
+        <img src="/pic.jpeg" alt="Image" className="logo-image" />
+      </div>
 
-            {/* Bottom 65% for form */}
-            <div className="form-container">
-                <h1>Create Account</h1>
-                
-                <form id="signupForm" onSubmit={handleSubmit}>
-                    <div className="input-container">
-                        <label htmlFor="name">Name</label>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            placeholder="Enter your name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                    </div>
+      {/* Bottom 65% for form */}
+      <div className="form-container">
+        <h1>Create Account</h1>
 
-                    <div className="input-container">
-                        <label htmlFor="email">Email</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            placeholder="Enter your email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
+        <form id="signupForm" onSubmit={handleSubmit}>
+          <div className="input-container">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-                    <div className="input-container">
-                        <label htmlFor="phone">Phone Number</label>
-                        <input 
-                            type="tel" 
-                            id="phone" 
-                            placeholder="Enter your phone number"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                        />
-                    </div>
+          <div className="input-container">
+            <label htmlFor="phone">Phone Number</label>
+            <input
+              type="tel"
+              id="phone"
+              placeholder="Enter your phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          </div>
 
-                    <button type="submit" className="signup-button">Sign Up</button>
-                </form>
-            </div>
-        </div>
-    );
+          <div className="input-container">
+            <label htmlFor="password">Create Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Create your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="input-container">
+            <label htmlFor="address">Address</label>
+            <input
+              type="text"
+              id="address"
+              placeholder="Enter your address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="signup-button">
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default CreateAccount;

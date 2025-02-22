@@ -72,51 +72,52 @@ function ContractorProfile() {
   }, [fetchWorkers]);
 
   // Add Worker Handler
-  const handleAddWorker = async (e) => {
-    e.preventDefault();
+// Add Worker Handler
+const handleAddWorker = async (e) => {
+  e.preventDefault();
 
-    // Comprehensive Validation
-    if (!workerName.trim()) {
-      setError('Worker name is required');
-      return;
+  // Comprehensive Validation
+  if (!workerName.trim()) {
+    setError('Worker name is required');
+    return;
+  }
+
+  if (!isValidPhoneNumber(workerPhoneNumber)) {
+    setError('Invalid worker phone number');
+    return;
+  }
+
+  try {
+    setLoading(true);
+    const response = await axios.post('/api/taskmaster/createProfile', {
+      name: workerName,
+      phoneNumber: workerPhoneNumber,
+      contractorId: '67b61b511bf7eb298ccec4b8', // Use dynamic contractorId from context
+      role: ['Plumber'], // Keep role if required by backend
+    });
+
+    console.log(response.data);
+    if (response.data.statusCode === 201) {
+      // Refresh workers list after successful addition
+      
+      setWorkerName('');
+      setWorkerPhone('');
+      setIsAddWorkerOpen(false);
+      setError('');
+      await fetchWorkers();
+    } else {
+      setError(response.data.message || 'Failed to add worker');
     }
+  } catch (error) {
+    console.error('Error adding worker:', error);
+    setError(
+      error.response?.data?.message || 'An error occurred while adding worker'
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
-    if (!isValidPhoneNumber(workerPhoneNumber)) {
-      setError('Invalid worker phone number');
-      return;
-    }
-
-    try {
-      setLoading(true);
-      const response = await axios.post('/api/taskmaster/createProfile', {
-        name: workerName,
-        phoneNumber: workerPhoneNumber,
-        contractorId: '67b61b511bf7eb298ccec4b8', // Use dynamic contractorId from context
-        role: ['Plumber'], // Keep role if required by backend
-      });
-
-      console.log(response.data);
-      if (response.data.statusCode === 201) {
-        // Refresh workers list after successful addition
-        await fetchWorkers();
-
-        // Reset form
-        setWorkerName('');
-        setWorkerPhone('');
-        setIsAddWorkerOpen(false);
-        setError('');
-      } else {
-        setError(response.data.message || 'Failed to add worker');
-      }
-    } catch (error) {
-      console.error('Error adding worker:', error);
-      setError(
-        error.response?.data?.message || 'An error occurred while adding worker'
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Send OTP Handler
   const handleSendOTP = async (e) => {
@@ -282,6 +283,11 @@ function ContractorProfile() {
           ))}
         </div>
 
+        {/* Error Display */}
+        {error && (
+          <div className="bg-red-100 text-red-700 p-3 text-center">{error}</div>
+        )}
+
         {/* Secondary Phone Number */}
         <form onSubmit={handleSendOTP} className="px-4 flex flex-col gap-4">
           <label className="font-medium">Enter Secondary Phone Number</label>
@@ -324,11 +330,6 @@ function ContractorProfile() {
               {loading ? 'Verifying...' : 'Verify OTP'}
             </button>
           </div>
-        )}
-
-        {/* Error Display */}
-        {error && (
-          <div className="bg-red-100 text-red-700 p-3 text-center">{error}</div>
         )}
       </div>
 
